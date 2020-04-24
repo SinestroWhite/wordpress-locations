@@ -12,23 +12,13 @@
 ?>	
 <?php get_header(); ?>
 
-<style type="text/css">	
-	#map {
-		width: 100%;
-		height: 500px;
-	}	
-</style>
-
-
 <main id="site-content" role="main">
 
 	<?php
 
 	if ( have_posts() ) {
-
 		while ( have_posts() ) {
 			the_post();
-
 			get_template_part( 'template-parts/content', get_post_type() );
 		}
 	}
@@ -91,7 +81,16 @@
 	function getLocations(lat1, lng1, lat2, lng2, magMin, magMax, depthMin, depthMax, dateBegin, dateEnd) {
 		axios.get("http://localhost/wp-json/twentytwenty/v1/locations", {
 			params: {
-				lat1, lng1, lat2, lng2, magMin, magMax, depthMin, depthMax, dateBegin, dateEnd,
+				lat1,
+				lng1,
+				lat2,
+				lng2,
+				magMin,
+				magMax,
+				depthMin,
+				depthMax,
+				dateBegin,
+				dateEnd
 			}
 		}).then((response) => {
 			markers = JSON.parse(response.data);
@@ -104,118 +103,14 @@
 
 	// Initialize and add the map
 	function initMap() {
+		
 		getLocations();
 
-	  var center = {lat: 38.906583, lng: -101.486147};
-	  var map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 4,
-		center: center,
-		styles: [
-		    {
-			"featureType": "landscape",
-			"stylers": [
-			    {
-				"hue": "#FFBB00"
-			    },
-			    {
-				"saturation": 43.400000000000006
-			    },
-			    {
-				"lightness": 37.599999999999994
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    },
-		    {
-			"featureType": "road.highway",
-			"stylers": [
-			    {
-				"hue": "#FFC200"
-			    },
-			    {
-				"saturation": -61.8
-			    },
-			    {
-				"lightness": 45.599999999999994
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    },
-		    {
-			"featureType": "road.arterial",
-			"stylers": [
-			    {
-				"hue": "#FF0300"
-			    },
-			    {
-				"saturation": -100
-			    },
-			    {
-				"lightness": 51.19999999999999
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    },
-		    {
-			"featureType": "road.local",
-			"stylers": [
-			    {
-				"hue": "#FF0300"
-			    },
-			    {
-				"saturation": -100
-			    },
-			    {
-				"lightness": 52
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    },
-		    {
-			"featureType": "water",
-			"stylers": [
-			    {
-				"hue": "#0078FF"
-			    },
-			    {
-				"saturation": -13.200000000000003
-			    },
-			    {
-				"lightness": 2.4000000000000057
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    },
-		    {
-			"featureType": "poi",
-			"stylers": [
-			    {
-				"hue": "#00FF6A"
-			    },
-			    {
-				"saturation": -1.0989010989011234
-			    },
-			    {
-				"lightness": 11.200000000000017
-			    },
-			    {
-				"gamma": 1
-			    }
-			]
-		    }
-		]
-  
-	  });
+		var center = {lat: 38.906583, lng: -101.486147};
+	  	var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 4,
+			center: center,
+	  	});
 
 		var googleMarkers = [];
 
@@ -255,12 +150,11 @@
 			cancelLabel: 'Clear'
 		},
 		minDate: '01/01/2014',
-        maxDate: '02/01/2014',
+        	maxDate: '02/01/2014',
 	}, function(start, end) {
-		// console.log(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
 		startDate = new Date(start.format('YYYY-MM-DD')).getTime();
 		endDate = new Date(end.format('YYYY-MM-DD')).getTime();
-    });
+    	});
 
 	$('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
 	  $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
@@ -355,6 +249,11 @@
 		.fields {
 			margin-top: 20px;
 		}
+	}
+	
+	#map {
+		width: 100%;
+		height: 500px;
 	}
 </style>
 
