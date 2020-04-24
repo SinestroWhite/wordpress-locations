@@ -25,7 +25,12 @@ function getLocations() {
 	$dateBegin = $_GET["dateBegin"] ? $_GET["dateBegin"] : 0;
 	$dateEnd = $_GET["dateEnd"] ? $_GET["dateEnd"] : 99999999999999999999;
 
-	$request = "SELECT * FROM markers WHERE ".$lat1." <= `lat` AND `lat` <= ".$lat2." AND ".$lng1." <= `lng` AND `lng` <= ".$lng2. " AND ".$magMin. " <= `magnitude` AND `magnitude` <=" .$magMax. " AND " .$depthMin. " <= `depth` AND `depth` <= ". $depthMax. " AND " .$dateBegin. " <= `time` AND `time` <= " .$dateEnd;
+	$request = "SELECT * FROM markers WHERE "
+		.$lat1." <= `lat` AND `lat` <= ".$lat2." AND "
+		.$lng1." <= `lng` AND `lng` <= ".$lng2." AND "
+		.$magMin. " <= `magnitude` AND `magnitude` <=" .$magMax." AND "
+		.$depthMin. " <= `depth` AND `depth` <= ". $depthMax." AND "
+		.$dateBegin. " <= `time` AND `time` <= " .$dateEnd;
 
 	$newdb = new wpdb('wordpressuser', 'password', 'wordpress', 'localhost');
 	$rows = $newdb->get_results($request);
